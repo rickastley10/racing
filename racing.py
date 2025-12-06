@@ -19,6 +19,7 @@ def car():
     t.goto(carx, cary)
     t.pendown()
     t.setheading(90)
+    t.begin_fill()
     t.forward(40)
     t.right(45)
     t.forward(20)
@@ -26,6 +27,9 @@ def car():
     t.forward(20)
     t.right(45)
     t.forward(40)
+    t.right(90)
+    t.forward(29)
+    t.end_fill()
     t.penup()
 
     global obsty
