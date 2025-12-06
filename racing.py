@@ -88,12 +88,22 @@ def right():
     if line == 1:
         line = 2
         car()
-        
 
+def autoswitch(x, y):
+    global line
+    if line == 1:
+        line = 2
+        car()
+        
+    elif line == 2:
+        line = 1
+        car()
 car()
+t.onscreenclick(autoswitch)
 
 t.onkey(left, "a")
 t.onkey(right, "d")
+
 t.listen()
 while 1== 1:
     car()
