@@ -98,8 +98,18 @@ def autoswitch(x, y):
     elif line == 2:
         line = 1
         car()
+def autoswitchkeyboard():
+    global line
+    if line == 1:
+        line = 2
+        car()
+        
+    elif line == 2:
+        line = 1
+        car()
 car()
 t.onscreenclick(autoswitch)
+t.onkey(autoswitchkeyboard, "space")
 
 t.onkey(left, "a")
 t.onkey(right, "d")
