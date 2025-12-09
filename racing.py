@@ -41,14 +41,24 @@ def car():
 
 def obstacle( ):
     global obsty, obst1x
-    t.goto( obst1x + 40, obsty)
+    t.goto( obst1x, obsty)
     t.pendown()
     t.begin_fill()
     
-    for yaidaiouwhu in range(4):
-        t.forward(40)
-        t.right(90)
+    t.pendown()
+    t.setheading(90)
+    t.begin_fill()
+    t.forward(40)
+    t.right(45)
+    t.forward(20)
+    t.right(90)
+    t.forward(20)
+    t.right(45)
+    t.forward(40)
+    t.right(90)
+    t.forward(29)
     t.end_fill()
+    t.penup()
     
     t.penup()
 
