@@ -7,7 +7,7 @@ carx, cary = 0, -100
 obstx, obsty = 0, 300
 lane = 1
 score = 0
-speed = 30
+speed = 20
 laney = 400
 t.setup(400, 600)
 t.title("racing")
@@ -74,23 +74,23 @@ def lanes():
     t.fillcolor("red")
     t.goto(50, laney)
     t.right(90)
-    for _ in range(50):
+    for _ in range(60):
         t.pencolor("white")
         t.pendown()
         t.forward(10)
         t.penup()
         t.forward(5)
     t.goto(-50, laney)
-    for _ in range(50):
+    for _ in range(60):
         t.pencolor("white")
         t.pendown()
         t.forward(10)
         t.penup()
         t.forward(5)
     t.left(90)
-    laney -= 10
-    if laney <= 300:
-        laney = 400
+    laney += 10
+    if laney >= 400:
+        laney = 300
 def right():
     global carx
     if carx < 100:
