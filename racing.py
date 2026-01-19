@@ -5,6 +5,7 @@ t.delay(0)
 t.penup()
 carx, cary = 0, -100
 obstx, obsty = 0, 300
+obst1x, obst1y = 0, 300
 lane = 1
 score = 0
 speed = 20
@@ -50,6 +51,23 @@ def obstacle():
     t.end_fill()
     t.penup()
 
+def obstacle1():
+    t.goto(obst1x, obst1y)
+    t.pencolor("blue")
+    t.fillcolor("blue")
+    t.pendown()
+    t.begin_fill()
+    t.forward(30)
+    t.left(90)
+    t.forward(60)
+    t.left(90)
+    t.forward(30)
+    t.left(90)
+    t.forward(60)
+    t.left(90)
+    t.end_fill()
+    t.penup()
+
 def movobst():
     global obstx, obsty, lane, score
     obsty -= speed
@@ -68,6 +86,34 @@ def movobst():
         score = 0
         obsty = 300
         obstx = 0
+        global obst1x, obst1y, lane1
+        score = 0
+        obst1y = 300
+        obst1x = 0
+
+def movobst1():
+    global obst1x, obst1y, lane1, score
+    obst1y -= speed
+    global lane1
+    if obst1y < -300:
+        obst1y = 300
+        lane1 = random.randint(1, 3)
+        
+        if lane1 == 1:
+            obst1x = -100
+        elif lane1 == 2:
+            obst1x = 0
+        elif lane1 == 3:
+            obst1x = 100
+    if cary < obst1y < cary + 60 and carx == obst1x:
+        global obstx, obsty, lane
+        score = 0
+        obsty = 300
+        obstx = 0
+        
+        score = 0
+        obst1y = 300
+        obst1x = 0
 
 def lanes():
     global laney
@@ -123,11 +169,17 @@ def mainloop():
     t.pencolor("red")
     t.clear()
     t.update()
+
+
     car()
     obstacle()
     movobst()
+    obstacle1()
+    movobst1()
     scoreboard()
     lanes()
+
+
     t.ontimer(mainloop, 30)
 
 mainloop()
