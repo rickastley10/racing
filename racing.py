@@ -1,130 +1,134 @@
 import turtle as t
-t.setup(300, 500)
-carx = -100
-line = 1
-t.penup()
-obst1x = -100
-obststart= 200
-obsty = obststart
-t.hideturtle()
-t.tracer(0, 0)
 import random
-cary = -100
+t.tracer(0, 0)
+t.delay(0)
+t.penup()
+carx, cary = 0, -100
+obstx, obsty = 0, 300
+lane = 1
+score = 0
+speed = 30
+laney = 400
+t.setup(400, 600)
+t.title("racing")
+
+t.hideturtle()
+t.pencolor("red")
+t.fillcolor("red")
+t.bgcolor("black")
 def car():
-    if line == 1:
-        carx= -100
-    elif line ==2:
-        carx=100
-    t.clear()
     t.goto(carx, cary)
+    t.pencolor("red")
+    t.fillcolor("red")
     t.pendown()
-    t.setheading(90)
     t.begin_fill()
-    t.forward(40)
-    t.right(45)
-    t.forward(20)
-    t.right(90)
-    t.forward(20)
-    t.right(45)
-    t.forward(40)
-    t.right(90)
-    t.forward(29)
+    t.forward(30)
+    t.left(90)
+    t.forward(60)
+    t.left(90)
+    t.forward(30)
+    t.left(90)
+    t.forward(60)
+    t.left(90)
     t.end_fill()
     t.penup()
 
-    global obsty
-    global mobsty
-    mobsty = obsty - 20
-    obsty=mobsty
-    t.ontimer(obstacle() ,200)
-    t.update()
-
-def obstacle( ):
-    global obsty, obst1x
-    t.goto( obst1x, obsty)
+def obstacle():
+    t.goto(obstx, obsty)
+    t.pencolor("blue")
+    t.fillcolor("blue")
     t.pendown()
     t.begin_fill()
-    
-    t.pendown()
-    t.setheading(90)
-    t.begin_fill()
-    t.forward(40)
-    t.right(45)
-    t.forward(20)
-    t.right(90)
-    t.forward(20)
-    t.right(45)
-    t.forward(40)
-    t.right(90)
-    t.forward(29)
+    t.forward(30)
+    t.left(90)
+    t.forward(60)
+    t.left(90)
+    t.forward(30)
+    t.left(90)
+    t.forward(60)
+    t.left(90)
     t.end_fill()
     t.penup()
-    
-    t.penup()
 
-    if obsty == -120:
-        obsty = obststart
-        global randint
-        randint = random.randint(1, 2)
-        #print(randint)
-        if randint == 1:
-            obst1x = -100
+def movobst():
+    global obstx, obsty, lane, score
+    obsty -= speed
+    global lane
+    if obsty < -300:
+        obsty = 300
+        lane = random.randint(1, 3)
+        score += 1
+        if lane == 1:
+            obstx = -100
+        elif lane == 2:
+            obstx = 0
+        elif lane == 3:
+            obstx = 100
+    if cary < obsty < cary + 60 and carx == obstx:
+        score = 0
+        obsty = 300
+        obstx = 0
 
-        elif randint ==2:
-            obst1x = 100
-    
-    
-
-    if line == 1:
-        current_carx = -100
-    else:
-        current_carx = 100
-    
-    if obst1x == current_carx and cary <= obsty <= cary + 40:
-        quit()
-            
-        
-
+def lanes():
+    global laney
+    t.fillcolor("red")
+    t.goto(50, laney)
+    t.right(90)
+    for _ in range(50):
+        t.pencolor("white")
+        t.pendown()
+        t.forward(10)
+        t.penup()
+        t.forward(5)
+    t.goto(-50, laney)
+    for _ in range(50):
+        t.pencolor("white")
+        t.pendown()
+        t.forward(10)
+        t.penup()
+        t.forward(5)
+    t.left(90)
+    laney -= 10
+    if laney <= 300:
+        laney = 400
+def right():
+    global carx
+    if carx < 100:
+        carx += 100
 
 def left():
-    
-    global line
-    if line == 2:
-        line = 1
-        car()
-    
-def right():
-    global line
-    if line == 1:
-        line = 2
-        car()
+    global carx
+    if carx > -100:
+        carx -= 100
 
-def autoswitch(x, y):
-    global line
-    if line == 1:
-        line = 2
-        car()
-        
-    elif line == 2:
-        line = 1
-        car()
-def autoswitchkeyboard():
-    global line
-    if line == 1:
-        line = 2
-        car()
-        
-    elif line == 2:
-        line = 1
-        car()
-car()
-t.onscreenclick(autoswitch)
-t.onkey(autoswitchkeyboard, "space")
+def click(x, y):
+    if 0 < x:
+        right()
+    elif x < 0:
+        left()
+def scoreboard():
+    t.fillcolor("red")
+    t.goto(0, 0)
+    t.pencolor("red")
+    t.write(f"{score}", font=("Arial", 16, "normal"))
 
+
+t.onscreenclick(click)
+t.onkey(left, "Left")
+t.onkey(right, "Right")
 t.onkey(left, "a")
 t.onkey(right, "d")
-
 t.listen()
-while 1== 1:
+def mainloop():
+    t.pencolor("red")
+    t.clear()
+    t.update()
     car()
+    obstacle()
+    movobst()
+    scoreboard()
+    lanes()
+    t.ontimer(mainloop, 30)
+
+mainloop()
 t.mainloop()
