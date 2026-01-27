@@ -168,7 +168,7 @@ t.listen()
 def mainloop():
     t.pencolor("red")
     t.clear()
-    t.update()
+    
 
 
     car()
@@ -178,9 +178,11 @@ def mainloop():
     movobst1()
     scoreboard()
     lanes()
+    t.update()
 
 
     t.ontimer(mainloop, 30)
 
 mainloop()
 t.mainloop()
+
